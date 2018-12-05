@@ -12,6 +12,7 @@
 int main(void) {
     
 	initMotor();
+	//LOLOLOLOLOLOLOLOLOL
 	
     while (1) 
     {
