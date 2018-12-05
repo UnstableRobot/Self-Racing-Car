@@ -7,9 +7,11 @@
 
 #include <avr/io.h>
 #include "ultrasonic.h"
+#include "PWM.h"
 
 int main(void) {
     
+	initMotor();
 	
     while (1) 
     {
