@@ -6,14 +6,14 @@
  */ 
 
 #include <avr/io.h>
+#include "ultrasonic.h"
 
-
-int main(void)
-{
-    /* Replace with your application code */
+int main(void) {
+    
+	
     while (1) 
     {
-		//Done goofed
+		
     }
 }
 
