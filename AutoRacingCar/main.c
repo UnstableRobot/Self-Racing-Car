@@ -5,10 +5,7 @@
  * Author : SPRO Team 3
  */ 
 
-
-
 #define F_CPU 16E6
-
 #include <avr/io.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -18,9 +15,9 @@
 #include "i2cmaster.h"
 #include <avr/interrupt.h>
 
-
 uint16_t adc_read(uint8_t adc_channel);	//ADC Reading function
 void test_function(void);	//Testing of IR-Sensors
+
 //unsigned int IR0, IR1, IR2, IR3, IR6, IR7;	//enable only for test_function
 //uint16_t adc_result_0, adc_result_1, adc_result_2, adc_result_3, adc_result_6, adc_result_7;	//enable only for test_function
 
@@ -34,27 +31,18 @@ int main(void)
 	ADMUX = (1<<REFS0);	 // Select Vref = AVcc
 	ADCSRA = (1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0)|(1<<ADEN); //set prescaler to 128 and turn on the ADC module
 	
-			DDRD = 0xFF;	// I/O board:PD4...7 as outputs, for LEDs
-			DDRC = 0x00;	// I/O board PC0...3 as inputs, for buttons
-			DDRB = (1<<1);
-	
-	unsigned int IR0, IR1, IR2, IR3, IR6, IR7;
-	
-	TCCR1A = (1<<COM1A1)|(1<<WGM11);	//|(1<<COM1A0);
+	DDRD = 0xFF;	// I/O board:PD4...7 as outputs, for LEDs
+	DDRC = 0x00;	// I/O board PC0...3 as inputs, for buttons
+	DDRB = (1<<1);
+		
+	TCCR1A = (1<<COM1A1)|(1<<WGM11);
 	TCCR1B = (1<<WGM13)|(1<<WGM12)|(1<<CS11)|(1<<CS10);
 	ICR1 = 5000;
 	
-	while(1){
+	unsigned int IR0, IR1, IR2, IR3, IR6, IR7;
 	
-		OCR1A = 100;
-		_delay_ms(3000);
-		OCR1A = 500;
-		_delay_ms(3000);
-		
-		
-		
-
-		
+	while(1){
+			
 		adc_result_0 = adc_read(0);	//Get mV value for Pin A0
 		adc_result_1 = adc_read(1);	//Get mV value for Pin A1
 		adc_result_2 = adc_read(2);	//Get mV value for Pin A2
@@ -70,7 +58,6 @@ int main(void)
 		IR7 = ((adc_result_7*4.84)/1024.0)*1000; // Function get value for IR7
 		
 		OCR1A = 375;
-		
 		
 		//test_function(); //Used to test the IR-Sensors. ONLY enalbe for testing!
 		if (IR0 >= 3500)
