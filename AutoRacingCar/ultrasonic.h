@@ -6,12 +6,13 @@
  */ 
 
 
+
 #ifndef ULTRASONIC_H_
 #define ULTRASONIC_H_
 
+void initTimer2();
 void initUltrasonic();
-int getDistance();
-
-
+int getDistance(uint8_t sensor);
+void ultrasonicDriving();
 
 #endif /* ULTRASONIC_H_ */

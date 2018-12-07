@@ -21,6 +21,6 @@ volatile char argIndex;
 void usart_Init();
 void usart_send(unsigned char data);
 int getCommand();
-void executeCMD();
+
 
 #endif /* USART_H_ */

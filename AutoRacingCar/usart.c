@@ -12,8 +12,6 @@
 #include "usart.h"
 #include "PWM.h"
 
-uint8_t motorPower = 0;
-
 void usart_Init() {
 	//Set the USART prescaler
 	UBRR0H = (uint8_t)(BAUD_PRESCALER>>8);
@@ -50,16 +48,3 @@ int getCommand() {
 	return !argIndex;
 }
 
-void executeCMD() {
-	switch(cmd) {
-		case 0:
-			usart_send(motorPower);
-			break;
-		case 1:
-			motorPower = arg1;
-			setMotor(motorPower);
-			break;
-		default:
-			break;
-	}
-}
