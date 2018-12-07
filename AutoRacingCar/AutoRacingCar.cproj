@@ -120,10 +120,10 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="IR-driving.c">
+    <Compile Include="IR_driving.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="IR-driving.h">
+    <Compile Include="IR_driving.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
