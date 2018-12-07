@@ -5,6 +5,12 @@
  *  Author: M.A.S
  */ 
 
+
+
+#include <avr/io.h>
+#include <stdint.h>
+#include "PWM.h"
+
 void initMotor() {
 	DDRD |= (1<<DDD6);
 	PORTD |= (1<<PORTD6);
