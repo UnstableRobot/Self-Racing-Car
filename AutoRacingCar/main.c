@@ -25,31 +25,23 @@ int main(void)
 	
 	Timer_init();
 	
-	while(1){
+	while(1)
+	{
+					
+		//Driving();
 		
-			
-		Driving();
+		OCR1A = 200;
+		_delay_ms(2000);
+		OCR1A = 225;
+		_delay_ms(2000);
+		OCR1A = 250;
+		_delay_ms(2000);
+		OCR1A = 275;
+		_delay_ms(2000);
+		OCR1A = 300;
+		_delay_ms(2000);
 		
-		//test_function(); //Used to test the IR-Sensors. ONLY enalbe for testing! (Enable global variable and function)
 	}
 
 }
 
-/*void test_function(void)
-{
-	adc_result_0 = adc_read(0);	//Get mV value for Pin A0
-	adc_result_1 = adc_read(1);	//Get mV value for Pin A1
-	adc_result_2 = adc_read(2);	//Get mV value for Pin A2
-	adc_result_3 = adc_read(3);	//Get mV value for Pin A3
-	adc_result_6 = adc_read(6);	//Get mV value for Pin A6
-	adc_result_7 = adc_read(7);	//Get mV value for Pin A7
-	
-	IR0 = ((adc_result_0*4.84)/1024.0)*1000;
-	IR1 = ((adc_result_1*4.84)/1024.0)*1000;
-	IR2 = ((adc_result_2*4.84)/1024.0)*1000;
-	IR3 = ((adc_result_3*4.84)/1024.0)*1000;
-	IR6 = ((adc_result_6*4.84)/1024.0)*1000;
-	IR7 = ((adc_result_7*4.84)/1024.0)*1000;
-
-	printf("A0:%u mV  A1:%u mV  A2:%u mV  A3:%u mV  A6:%u mV  A7:%u mV\n", IR0, IR1, IR2, IR3, IR6, IR7);
-}*/
