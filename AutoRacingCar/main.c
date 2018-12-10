@@ -19,8 +19,8 @@
 
 void executeCMD();
 
-uint8_t motorPower = 0;
-uint8_t driveMode = 0;
+volatile uint8_t motorPower = 0;
+volatile uint8_t driveMode = 0;
 
 int servoCenter = 250;
 int servoPos = 250;
@@ -39,12 +39,18 @@ int main(void) {
 	usart_Init();
 	
     while (1) {
-		//if(driveMode == 1) {
-			dis1 = getDistance(1);
-			//usart_send((uint8_t)dis1);
-			_delay_ms(100);
-			
-		//}
+		dis1 = getDistance(1);
+		//dis2 = getDistance(2);
+		//dis3 = getDistance(3);
+		
+		if(driveMode == 1) {
+			ultrasonicDriving();
+		}
+		else {
+			motorPower = 0;
+		}
+		setMotor(motorPower);
+		_delay_ms(100);
     }
 }
 
@@ -58,19 +64,23 @@ void executeCMD() {
 	switch(cmd) {
 		case 0x00:
 		usart_send((uint8_t)dis1);
+		usart_send((uint8_t)dis2);
+		usart_send((uint8_t)dis3);
+		usart_send(motorPower);
 		break;
-		case 0x01:
-		motorPower = arg1;
-		setMotor(motorPower);
+	case 0x01:
+		driveMode = arg1;
 		break;
-		default:
+	default:
 		break;
 	}
 }
 
 void ultrasonicDriving() {
-	/*if () {
+	if (dis1 > 20) {
+		motorPower = 150;
 	} 
 	else {
-	}*/
+		motorPower = 0;
+	}
 }

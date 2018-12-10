@@ -33,6 +33,7 @@ int getDistance(uint8_t sensor) {
 	
 	//Meassure time til falling edge
 	TCNT2 = 0;
+	TIFR2 |= (1<<TOV2);
 	while((PINB & (2<<sensor)) && overflows <= 45) {
 		if (TIFR2 & (1<<TOV2)){
 			TIFR2 |= (1<<TOV2);
