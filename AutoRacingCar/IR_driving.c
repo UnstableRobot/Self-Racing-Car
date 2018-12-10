@@ -35,26 +35,64 @@ void Driving(void)
 	IR6 = ((adc_result_6*4.84)/1024.0)*1000; // Function get value for IR6
 	IR7 = ((adc_result_7*4.84)/1024.0)*1000; // Function get value for IR7
 	
-	if (IR0 >= 3500)
+	if (IR0 >= 3300)
 	{
-		OCR1A = 200;	//PWM Max right
+		OCR1A = 300;	//PWM Max right (Precaution for turning)
 	}
-	if (IR1 && IR0 >= 3500)
+	if (IR1 && IR0 >= 4000)
 	{
-		OCR1A = 225;	//PWM medium right
+		OCR1A = 300;	//PWM Max right
 	}
-	if (IR2 && IR3 >= 3500)
+	if (IR1 && IR2 >= 4000)
+	{
+		OCR1A = 275;	//PWM medium right
+	}
+	if (IR2 && IR3 >= 4000)
 	{
 		OCR1A = 250;	//PWM straight (straight forward)
 	}
-	if (IR6 && IR3 >= 3500)
+	if (IR6 && IR3 >= 4000)
+	{
+		OCR1A = 225;	//PWM medium left
+	}
+	if (IR7 && IR6 >= 4000)
+	{
+		OCR1A = 200;	//PWM Max left
+	}
+	if (IR7 >= 4000)
+	{
+		OCR1A = 200;	//PWM Max left (Precaution for turning)
+	}
+	
+	/*if (IR0 >= 3200)
+	{
+		OCR1A = 200;	//PWM Max right (Precaution for turning)
+	}
+	if (IR1 && IR0 >= 3200)
+	{
+		OCR1A = 200;	//PWM Max right
+	}
+	if (IR1 && IR2 >= 3200)
+	{
+		OCR1A = 225;	//PWM medium right
+	}
+	if (IR2 && IR3 >= 3200)
+	{
+		OCR1A = 250;	//PWM straight (straight forward)
+	}
+	if (IR6 && IR3 >= 3200)
 	{
 		OCR1A = 275;	//PWM medium left
 	}
-	if (IR7 >= 3500)
+	if (IR7 && IR6 >= 3200)
 	{
 		OCR1A = 300;	//PWM Max left
 	}
+	if (IR7 >= 3200)
+	{
+		OCR1A = 300;	//PWM Max left (Precaution for turning)
+	}*/
+	
 }
 
 void Timer_init(void)

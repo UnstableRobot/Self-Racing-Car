@@ -24,13 +24,19 @@ int main(void)
 	//io_redirect();	// redirect input and output to the uart (Realterm)
 	
 	Timer_init();
+	_delay_ms(10000);
+	initMotor();
+	setMotor(255);
+	_delay_ms(50);
+	setMotor(140);
 	
 	while(1)
 	{
 					
-		//Driving();
+		Driving();
+		_delay_ms(20);
 		
-		OCR1A = 200;
+		/*OCR1A = 200;
 		_delay_ms(2000);
 		OCR1A = 225;
 		_delay_ms(2000);
@@ -39,7 +45,7 @@ int main(void)
 		OCR1A = 275;
 		_delay_ms(2000);
 		OCR1A = 300;
-		_delay_ms(2000);
+		_delay_ms(2000);*/
 		
 	}
 
