@@ -4,6 +4,7 @@
  * Created: 05/12/2018 13.59.10
  *  Author: M.A.S
  */ 
+#include "avr/io.h"
 
 void initMotor() {
 	DDRD |= (1<<DDD6);
