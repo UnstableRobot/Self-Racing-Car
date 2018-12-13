@@ -12,7 +12,7 @@
 void initMotor();
 void initServo();
 
-void setMotor(uint8_t power);
-void setServo(uint8_t position);
+void setMotor(uint16_t power);
+void setServo(uint16_t position);
 
 #endif /* PWM_H_ */
