@@ -14,8 +14,8 @@ void test_function(void);	//Testing of IR-Sensors
 void Driving(void);		//Value and motor change function
 void Timer_init(void);
 
-unsigned int IR0, IR1, IR2, IR3, IR6, IR7;	//enable only for test_function
-uint16_t adc_result_0, adc_result_1, adc_result_2, adc_result_3, adc_result_6, adc_result_7;	//enable only for test_function
+unsigned int IR0, IR1, IR2, IR3, IR4, IR5;	//enable only for test_function
+uint16_t adc_result_0, adc_result_1, adc_result_2, adc_result_3, adc_result_4, adc_result_5;	//enable only for test_function
 
 
 
