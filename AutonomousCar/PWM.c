@@ -6,14 +6,22 @@
  */ 
 #include "avr/io.h"
 
-void initMotor() {
-	DDRH |= (1<<DDH3);
-	PORTH |= (1<<PH3);
-	OCR4A = 0;	//sets duty cycle 50%
-	TCCR4A |= (1<<COM4A1) | (1<<WGM41) | (1<<WGM40);	//non-inverting fast pwm
-	TCCR4B |= (1<<CS41);	//Set prescaler to 8 and start PWM
+
+void setMotor(uint16_t power) 
+{
+	OCR4A = 655*power;
 }
 
-void setMotor(uint16_t power) {
-	OCR4A = power;
+void init_motor(void)
+{
+	DDRH |= (1<<DDH3);	//enable PH3 GPIO
+	
+	//set fast pwm, non-inverted
+	
+	TCCR4A |= (1 <<WGM41) | (1<<COM4A1);
+	TCCR4B |= ( 1 << WGM42) | (1 <<WGM43)|(1<<CS41);
+	
+	ICR4 |= 65535;	//set top limit => 16 bits
+	
+	OCR4A = 0;	//set duty cycle
 }

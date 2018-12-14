@@ -9,10 +9,9 @@
 #ifndef PWM_H_
 #define PWM_H_
 
-void initMotor();
-void initServo();
+void init_motor();
 
 void setMotor(uint16_t power);
-void setServo(uint16_t position);
+
 
 #endif /* PWM_H_ */
