@@ -8,37 +8,44 @@
 
 #include <avr/io.h>
 #include <stdint.h>
+#include "ultrasonic.h"
+
+volatile uint8_t ultChannel = 0;
+volatile uint8_t measuring = 0;
+volatile int distance = 0;
 
 void initTimer3() {
+	TCCR5B |= (1<<CS51);
 	TCCR3B |= (1<<CS31);
+	TIMSK3 |= (1<<TOIE3);
 }
 
 void initUltrasonic() {
-	DDRC &= ~((1<<0) | (1<<1) |(1<<2) | (1<<3) | (1<<4));
+	DDRK &= ~((1<<0) | (1<<1) |(1<<2) | (1<<3) | (1<<4));
 	DDRA |= (1<<0) | (1<<1) |(1<<2) | (1<<3) | (1<<4);
 	PORTA &= ~((1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4));
 	PORTC &= ~((1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4));
+	
+	PCICR |= (1<<PCIE2);
+	PCMSK2 = 0x3F;
 }
 
-int getDistance(uint8_t sensor) {
-	int distance = 0;
-	int count = 0;
-	//Send a 10µs pulse to the sensors trigger pin
-	PORTA |= (1<<sensor);
-	TCNT3 = 0;
-	while(TCNT3 < 20);
-	PORTA &= ~(1<<sensor);
-	//wait for rising edge on echo pin
-	TCNT3 = 0;
-	while(!(PINC & (1<<sensor))) {
+uint8_t trigUltrasonic(uint8_t sensor) {
+	//Check if a measurement is ongoing
+	if (measuring){
+		return 0;
+	} 
+	else {
+		//PORTB |= (1<<7);
+		ultChannel = sensor;
+		measuring = 1;
+		//Send a 10µs pulse to the sensors trigger pin
+		PORTA |= (1<<sensor);
+		TCNT5 = 0;
+		while(TCNT5 < 20);
+		PORTA &= ~(1<<sensor);
+		//PORTB &= ~(1<<7);
+		return 1;
 	}
-	
-	//Meassure time til falling edge
-	TCNT3 = 0;
-	while((PINC & (1<<sensor)) && TCNT3 < 23000) {
-	}
-	
-	count = TCNT3;
-	distance = (count/2)/58;
-	return distance;
+
 }

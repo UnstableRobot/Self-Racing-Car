@@ -18,7 +18,6 @@ void usart_Init() {
 	//Enable RX, TX and interrupts
 	UCSR0B = (1<<RXEN0) | (1<<TXEN0) | (1<<RXCIE0);
 	UCSR0C = (1<<UCSZ00) | (1<<UCSZ01);
-	sei();
 }
 
 void usart_send(unsigned char data) {
