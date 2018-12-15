@@ -138,6 +138,12 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="median.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="median.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="PWM.c">
       <SubType>compile</SubType>
     </Compile>
