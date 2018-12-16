@@ -14,6 +14,9 @@
 #include "usart.h"
 #include "PWM.h"
 #include "median.h"
+#include "i2cmaster.h"
+#include "MPU9250.h"
+
 
 void smoothTurn(int target);
 void hardTurn(int target);
@@ -26,16 +29,20 @@ int txTime = 0;
 
 uint8_t driveState = 0;
 uint8_t motorPower = 0;
+uint8_t motorEnable = 0;
 uint8_t curChannel = 4;
 int turnDelay = 0;
 int stateDelay = 0;
+int heading = 20000;
 
 int servoPos = 250;
 
 int main(void) {
-	TCCR5B |= (1<<CS51) | (1<<CS50);
+	//TCCR5B |= (1<<CS51) | (1<<CS50);
 	DDRB |= (1<<7);
 	//PORTB &= ~(1<<7);
+	DDRD |= (1<<0) | (1<<1);
+	PORTD |= (1<<0) | (1<<1);	//Enable Pull-ups for i2c
 	
 	for (int j = 0; j < 5; j++){
 		for (int k = 0; k < 12; k++){
@@ -48,12 +55,14 @@ int main(void) {
     initTimer3();
 	initUltrasonic();
 	usart_Init();
+	//i2c_init();
+	//heading = getWhoAmI();
 	sei();
 	
     while (1) {
 		if (TCNT5 >= 12000){
 			if (trigUltrasonic(curChannel)){
-				if (curChannel < 2){
+				if (curChannel < 1){
 					curChannel++;
 				} 
 				else {
@@ -62,25 +71,31 @@ int main(void) {
 			}
 		}
 		
-		setMotor(motorPower);
+		if (motorEnable){
+			setMotor(motorPower);
+		} 
+		else{
+			setMotor(0);
+		}
+		
 		
 		if (driveState == 0) {
-			if (distances[0][0] >= 40 && distances[1][0] > 100){
+			if (distances[0][0] >= 400 && (distances[1][0] -distances[0][0]) >= 5){
 				smoothTurn(300);
 			}
-			else if(distances[0][0] >= 40 && distances[1][0] < 100) {
+			else if(distances[0][0] >= 400 && (distances[1][0] -distances[0][0]) < 5) {
 				smoothTurn(250);
 			}
-			else if (distances[0][0] <= 35/* && distances[1][3] > 100*/){
+			else if (distances[0][0] <= 350 && (distances[1][0] -distances[0][0]) <= 0){
 				smoothTurn(200);
 			}
-			else if (distances[0][0] <= 35/* && distances[1][3] < 100*/){
+			else if (distances[0][0] <= 350 && (distances[1][0] -distances[0][0]) > 0){
 				smoothTurn(250);
 			}
 			else {
 				smoothTurn(250);
 			}
-			if (distances[2][0] < 70){
+			if (distances[1][0] > 800){
 				if (stateDelay > 5){
 					driveState = 1;
 				}
@@ -94,7 +109,7 @@ int main(void) {
 		} 
 		else if (driveState == 1){
 			hardTurn(300);
-			if (distances[1][0] >= 180 && distances[2][0] >= 180){
+			if (distances[1][0] - distances[0][0] < 50 && distances[1][0] - distances[0][0] > -50){
 				if (stateDelay > 5){
 					driveState = 0;
 				}
@@ -128,7 +143,7 @@ ISR(PCINT2_vect) {
 		distances[ultChannel][4] = distances[ultChannel][3];
 		distances[ultChannel][3] = distances[ultChannel][2];
 		distances[ultChannel][2] = distances[ultChannel][1];
-		distances[ultChannel][1] = (distance/2)/58;
+		distances[ultChannel][1] = (int)(distance/2)/5.8;
 		
 		distances[ultChannel][0] = median5(distances[ultChannel][5], distances[ultChannel][4], distances[ultChannel][3], distances[ultChannel][2], distances[ultChannel][1]);
 		
@@ -144,17 +159,24 @@ void executeCMD() {
 	switch(cmd) {
 		case 0x00:
 		usart_send((uint8_t)distances[0][0]);
+		usart_send(distances[0][0]>>8);
 		usart_send((uint8_t)distances[1][0]);
+		usart_send(distances[1][0]>>8);
 		usart_send((uint8_t)distances[2][0]);
 		usart_send((uint8_t)distances[3][0]);
 		usart_send((uint8_t)distances[4][0]);
 		usart_send(driveState);
+		//usart_send((uint8_t)heading);
+		//usart_send((heading>>8));
 		break;
 	case 0x01:
 		driveState = arg1;
 		break;
 	case 0x02:
 		motorPower = arg1;
+		break;
+	case 0x03:
+		motorEnable = arg1;
 		break;
 		default:
 		break;

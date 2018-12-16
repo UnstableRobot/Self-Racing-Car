@@ -13,17 +13,17 @@ void init_motor(int duty) {
 	
 	//set fast pwm, non-inverted
 	
-	TCCR4A |= (1<<WGM41) | (1<<COM4A1);
-	TCCR4B |= (1<< WGM42) | (1<<WGM43) | (1<<CS41);
+	TCCR4A |= (1<<WGM41) | (1<<WGM40) | (1<<COM4A1);
+	TCCR4B |= (1<< WGM42) | (1<<CS41);
 	
-	ICR4 = 65535;	//set top limit => 16 bits
+	//ICR4 = 65535;	//set top limit => 16 bits
 	
 	OCR4A = 0;	//set duty cycle
 	
 }
 
 void setMotor(uint8_t duty) {
-	OCR4A = 655*duty;
+	OCR4A = 10*duty;
 }
 
 void initServo() {

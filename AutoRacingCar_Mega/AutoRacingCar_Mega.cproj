@@ -135,6 +135,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="i2cmaster.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
@@ -144,10 +147,19 @@
     <Compile Include="median.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MPU9250.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MPU9250.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="PWM.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="PWM.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="twimaster.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="ultrasonic.c">
