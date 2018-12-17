@@ -19,25 +19,23 @@
 int main(void)
 {
 	OCR1A = 250; //Straighten the wheels
-	//uart_init();
-	//io_redirect();
-	Timer_init();
-	_delay_ms(5000);
-	init_motor();
-	setMotor(100);
-	_delay_ms(50);
-	setMotor(13);
+	//uart_init();	//Communication to microcontroller (for PC)
+	//io_redirect();	//Use for Realterm on PC (debugging)
+	Timer_init();	//Timer and init. for servo
+	_delay_ms(5000); //Delay for motor
+	init_motor();	//Start motor
+	setMotor(100);	//Motor set to 100% duty
+	_delay_ms(50);	//delay 50ms (motor acceleration spike)
+	setMotor(10);	//Motor set to 13% duty
 	
 	
 	while(1)
 	{
 					
-		Driving();
+		Driving();	//Line following function
 		
-		//printf("0:%u 1:%u 2:%u 3:%u 4:%u 5:%u\n\n\n", IR0, IR1, IR2, IR3, IR4, IR5);
-		//_delay_ms(1000);
-		
-	
+		//printf("0:%u 1:%u 2:%u 3:%u 4:%u 5:%u\n\n\n", IR0, IR1, IR2, IR3, IR4, IR5);	//Print IR-values for debuging
+		//_delay_ms(1000);	//delay 1sec for easy read of values
 		
 	}
 
